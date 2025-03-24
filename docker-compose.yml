@@ -18,9 +18,11 @@ services:
       - server-local-data:/app/packages/twenty-server/${STORAGE_LOCAL_PATH:-.local-storage}
       - docker-data:/app/docker-data
     ports:
-      - "3080:3080"
+      - '3090:3090'
     environment:
-      NODE_PORT: 3080
+      NODE_PORT: 3090
+      REACT_APP_PORT: 
+      FRONTEND_URL: ${FRONTEND_URL}
       PG_DATABASE_URL: postgres://${PG_DATABASE_USER:-postgres}:${PG_DATABASE_PASSWORD:-postgres}@${PG_DATABASE_HOST:-db}:${PG_DATABASE_PORT:-5432}/default
       SERVER_URL: ${SERVER_URL}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
@@ -72,12 +74,12 @@ services:
     image: twentycrm/twenty:${TAG:-latest}
     volumes:
       - server-local-data:/app/packages/twenty-server/${STORAGE_LOCAL_PATH:-.local-storage}
-    command: ["yarn", "worker:prod"]
+    command: ['yarn', 'worker:prod']
     environment:
       PG_DATABASE_URL: postgres://${PG_DATABASE_USER:-postgres}:${PG_DATABASE_PASSWORD:-postgres}@${PG_DATABASE_HOST:-db}:${PG_DATABASE_PORT:-5432}/default
       SERVER_URL: ${SERVER_URL}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
-      DISABLE_DB_MIGRATIONS: "true" # it already runs on the server
+      DISABLE_DB_MIGRATIONS: 'true' # it already runs on the server
 
       STORAGE_TYPE: ${STORAGE_TYPE}
       STORAGE_S3_REGION: ${STORAGE_S3_REGION}
@@ -109,7 +111,7 @@ services:
       # EMAIL_SMTP_PORT: ${EMAIL_SMTP_PORT:-465}
       # EMAIL_SMTP_USER: ${EMAIL_SMTP_USER:-}
       # EMAIL_SMTP_PASSWORD: ${EMAIL_SMTP_PASSWORD:-}
-      
+
     depends_on:
       db:
         condition: service_healthy

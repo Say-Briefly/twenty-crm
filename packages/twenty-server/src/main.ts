@@ -6,6 +6,7 @@ import fs from 'fs';
 
 import bytes from 'bytes';
 import { useContainer, ValidationError } from 'class-validator';
+import cors from 'cors';
 import session from 'express-session';
 import { graphqlUploadExpress } from 'graphql-upload';
 
@@ -21,8 +22,6 @@ import './instrument';
 
 import { settings } from './engine/constants/settings';
 import { generateFrontConfig } from './utils/generate-front-config';
-
-import cors from 'cors';
 
 const bootstrap = async () => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -44,9 +43,11 @@ const bootstrap = async () => {
 
   app.use(session(getSessionStorageOptions(environmentService)));
 
-  app.use(cors({
-    origin: '*',
-  }));
+  app.use(
+    cors({
+      origin: '*',
+    }),
+  );
 
   // TODO: Double check this as it's not working for now, it's going to be helpful for durable trees in twenty "orm"
   // // Apply context id strategy for durable trees
