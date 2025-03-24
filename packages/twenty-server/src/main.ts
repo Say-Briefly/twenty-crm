@@ -22,6 +22,8 @@ import './instrument';
 import { settings } from './engine/constants/settings';
 import { generateFrontConfig } from './utils/generate-front-config';
 
+import cors from 'cors';
+
 const bootstrap = async () => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
@@ -41,6 +43,10 @@ const bootstrap = async () => {
   const environmentService = app.get(EnvironmentService);
 
   app.use(session(getSessionStorageOptions(environmentService)));
+
+  app.use(cors({
+    origin: '*',
+  }));
 
   // TODO: Double check this as it's not working for now, it's going to be helpful for durable trees in twenty "orm"
   // // Apply context id strategy for durable trees
