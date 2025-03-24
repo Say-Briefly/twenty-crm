@@ -21,10 +21,7 @@ services:
       - '3090:3090'
     environment:
       NODE_PORT: 3090
-      REACT_APP_PORT: 
-      FRONTEND_URL: ${FRONTEND_URL}
       PG_DATABASE_URL: postgres://${PG_DATABASE_USER:-postgres}:${PG_DATABASE_PASSWORD:-postgres}@${PG_DATABASE_HOST:-db}:${PG_DATABASE_PORT:-5432}/default
-      SERVER_URL: ${SERVER_URL}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
 
       STORAGE_TYPE: ${STORAGE_TYPE}
